@@ -7,7 +7,7 @@
 All colours are custom Tailwind tokens compiled into `styles.css`.
 
 | Token | Hex | Role |
-|---|---|---|
+| --- | --- | --- |
 | `off-white` | `#f7f4f0` | Page background |
 | `off-black` | `#140e00` | Primary body text on light pages |
 | `c-50` | near white | Hero headings, hero sub-text |
@@ -20,7 +20,7 @@ All colours are custom Tailwind tokens compiled into `styles.css`.
 
 **Button background colour** (not a Tailwind token — always inline style): `#F2EEE8`  
 **Muted date/label text colour** (inline style): `#9a8f82`  
-**Announcement button text colour** (inline style): `#4a4035`
+**Writing card button text colour** (inline style): `#4a4035`
 
 ---
 
@@ -31,7 +31,7 @@ All colours are custom Tailwind tokens compiled into `styles.css`.
 - **Body `<body>` class:** `inter_5972bc34-module__OU16Qa__className martinaplantjin_e395065c-module__V_tPSa__variable bg-off-white font-sans antialiased`
 - Nav/links: `font-[450]` (custom weight between regular and medium)
 - Page headings: `font-serif font-light` with negative letter-spacing
-- Tracking on blog cards: `letter-spacing: -1px` (inline style)
+- Tracking on writing cards: `letter-spacing: -1px` (inline style)
 
 ---
 
@@ -40,12 +40,14 @@ All colours are custom Tailwind tokens compiled into `styles.css`.
 File: `./ass/devoid_pro_logo.jpg` | Render size: 40×40 px | Corner: `rounded-sm`
 
 ### Dark/hero background (index.html)
+
 ```html
 <img src="./ass/devoid_pro_logo.jpg" alt="Devoid" class="inline-block rounded-sm"
   style="mix-blend-mode: screen; height: 40px; width: 40px" />
 ```
 
-### Light/off-white background (blog.html + all interior pages)
+### Light/off-white background (writings.html + all interior pages)
+
 ```html
 <img src="./ass/devoid_pro_logo.jpg" alt="Devoid" class="inline-block rounded-sm"
   style="height: 40px; width: 40px; filter: invert(1); mix-blend-mode: multiply;" />
@@ -55,18 +57,20 @@ File: `./ass/devoid_pro_logo.jpg` | Render size: 40×40 px | Corner: `rounded-sm
 
 ## Border System
 
-```
+```text
 |a          |c         content         |d          |b|
 ```
 
 | Border | Position | Tailwind / Inline |
-|---|---|---|
+| --- | --- | --- |
 | a | Outer left | `border-l border-c-300` on page wrapper |
 | b | Outer right | `border-r border-c-300` on page wrapper |
-| c | 20% from left | `position: absolute; left: 20%; width: 1px; background: #eae5de;` |
-| d | 20% from right | `position: absolute; right: 20%; width: 1px; background: #eae5de;` |
+| c | 20% from left (10% on writings.html) | `position: absolute; left: 20%; width: 1px; background: #eae5de;` |
+| d | 20% from right (10% on writings.html) | `position: absolute; right: 20%; width: 1px; background: #eae5de;` |
 
 All body content must sit between c and d. Use `margin-left: 20%; margin-right: 20%` on the content wrapper (inline style — Tailwind `ml-[20%]` is not compiled).
+
+**Exception:** `writings.html` uses 10% for c/d and content margins — narrower gutters, wider content zone.
 
 No horizontal lines between cards or sections unless deliberately placed (nav underline, footer top).
 
@@ -88,8 +92,8 @@ Used on every page — identical structure. Centred at `max-w-[1172px]`, desktop
 
     <!-- Active nav link (add aria-current="page" on current page) -->
     <a class="group relative hidden items-center gap-1 rounded-md text-center text-sm transition-opacity hover:opacity-70 active:opacity-100 lg:flex"
-       href="./blog.html" aria-current="page">
-      Blogs
+       href="./writings.html" aria-current="page">
+      Writings
       <svg viewBox="0 0 10 9" class="inline-block fill-current size-2.5 opacity-0 transition-opacity group-hover:opacity-100"
            preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
         <path d="M5.52614 8.72409L4.75519 7.96238L7.66357 5.05399H0.249512V3.94604H7.66357L4.75519 1.04689L5.52614 0.27594L9.75022 4.50002L5.52614 8.72409Z"></path>
@@ -115,7 +119,7 @@ Used on every page — identical structure. Centred at `max-w-[1172px]`, desktop
 
 ## Footer
 
-Identical on all pages. Copy from `blog.html` — do not rewrite from memory.
+Identical on all pages. Copy from `writings.html` — do not rewrite from memory.
 
 Key classes on the inner div: `border-c-300 border-r border-l border-t`  
 This continues the a/b border lines and adds the top separator.
@@ -129,11 +133,11 @@ Mobile size: `size-6` | Desktop size: `size-[18px]`
 
 ## "Read the Announcement" Button
 
-Used on blog cards. Inline style required for background (not a compiled Tailwind class).
+Used on writing cards. Inline style required for background (not a compiled Tailwind class).
 
 ```html
 <a class="group relative inline-flex items-center gap-1 rounded-sm px-3 py-1 text-sm transition-opacity hover:opacity-70 active:opacity-100"
-   style="background: #F2EEE8; color: #4a4035;" href="#">
+   style="background: #F2EEE8; color: #4a4035;" href="./writing-item.html?id=N">
   Read the announcement
   <svg viewBox="0 0 10 9" class="inline-block fill-current size-2.5" preserveAspectRatio="xMidYMid meet"
        aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -154,13 +158,14 @@ Used on blog cards. Inline style required for background (not a compiled Tailwin
 </head>
 <body class="inter_5972bc34-module__OU16Qa__className martinaplantjin_e395065c-module__V_tPSa__variable bg-off-white font-sans antialiased">
   <div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
-    <div class="flex w-full max-w-[1204px] 2xl:max-w-[1440px] flex-col">
+    <div class="flex-1 flex w-full max-w-[1204px] 2xl:max-w-[1440px] flex-col">
 
       <div class="flex-1 border-l border-r border-c-300">  <!-- a + b borders -->
 
         <!-- NAV (border-b border-c-300 on wrapper div) -->
 
         <!-- BODY: relative container for c + d lines -->
+        <!-- NOTE: writings.html uses 10% for c/d gutters; all other pages use 20% -->
         <div style="position: relative;">
           <div style="position: absolute; top: 0; bottom: 0; left: 20%; width: 1px; background: #eae5de;"></div>
           <div style="position: absolute; top: 0; bottom: 0; right: 20%; width: 1px; background: #eae5de;"></div>
@@ -184,12 +189,12 @@ Used on blog cards. Inline style required for background (not a compiled Tailwin
 
 ## Assets
 
-```
+```text
 ass/
   devoid_pro_logo.jpg     — logo (JPG with dark background — see Logo section)
   devoid_hero_bg.jpg      — landing page hero background image
   blog-bg/
-    blog-1.jpg            — first blog post image
+    blog-1.jpg            — first writing post image
     blog-N.jpg            — add more here, reference in blogs.json
   social/
     linkedin.svg, x.svg, insta.svg, tiktok.svg, youtube.svg

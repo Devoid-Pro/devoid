@@ -1,0 +1,21 @@
+/* Custom site-wide styles — append here instead of modifying styles.css */
+
+/* Scrollbar — warm Devoid theme */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #d4cdc4 #f7f4f0;
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f4f0;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4cdc4;
+  border-radius: 4px;
+  border: 2px solid #f7f4f0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9a8f82;
+}

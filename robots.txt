@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://devoid.pro/sitemap.xml

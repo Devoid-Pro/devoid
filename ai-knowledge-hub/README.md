@@ -5,7 +5,7 @@ Read the relevant doc before touching any file.
 
 ## What is Devoid?
 
-`devoid.pro` — a tech talent outsourcing company. They hire elite software engineers, PMs, QA, DevOps, and UI/UX designers from Sri Lanka and place them inside US startups on demand. Companies collaborate with Devoid to fill employee gaps without friction.
+`devoid.pro` — a talent company that connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Devoid fills engineering skill gaps globally, without friction. No specific country or region is referenced in any user-facing content — see Rule 9 in `rules.md`.
 
 ## Tech Stack
 
@@ -16,15 +16,15 @@ Read the relevant doc before touching any file.
 
 ## File Structure
 
-```
+```text
 devoid/
   index.html          ← Landing page
-  blog.html           ← Blog listing page
+  writings.html       ← Writings listing page (formerly blog.html)
+  writing-item.html   ← Individual writing detail page (formerly blog-detail.html)
   blogs.json          ← Blog post data (add new posts here)
   styles.css          ← Pre-compiled Tailwind — DO NOT regenerate or modify
+  custom.css          ← Site-wide custom CSS (scrollbar theme, etc.) — append here
   DESIGN.md           ← Design system reference (summary version)
-  robots.txt          ← Should contain: User-agent: *, Allow: /, Sitemap URL
-  sitemap.xml         ← XML sitemap — update whenever a new page is added
   ass/
     devoid_pro_logo.jpg
     devoid_hero_bg.jpg
@@ -39,14 +39,16 @@ devoid/
     seo-sitemap.md
     pages/
       index.md
-      blog.md
+      writings.md
+      writing-item.md
 ```
 
 ## Which Doc to Read for Which Task
 
 | Task | Read |
-|---|---|
-| Adding a new blog post | `pages/blog.md` |
+| --- | --- |
+| Adding a new writing/blog post | `pages/writings.md` |
+| Editing writing content / detail page layout | `pages/writing-item.md` |
 | Creating a new page | `design-system.md` + `rules.md` + `seo-sitemap.md` |
 | Changing colours, fonts, borders | `design-system.md` + `rules.md` |
 | Changing the nav or footer | `design-system.md` (nav/footer sections) |

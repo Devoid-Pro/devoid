@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./custom.css" />
+  <style>
+    /* C and D border lines — identical to blog.html */
+    .post-c-line { position: absolute; top: 0; bottom: 0; left: 20%; width: 1px; background: #eae5de; z-index: 0; }
+    .post-d-line { position: absolute; top: 0; bottom: 0; right: 20%; width: 1px; background: #eae5de; z-index: 0; }
+
+    /* Content zone between c and d — used for header block and body block */
+    .post-content-zone { margin-left: 20%; margin-right: 20%; padding: 0 40px; }
+
+    /* Back link */
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 450;
+      color: #9a8f82;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .post-back:hover { opacity: 0.7; }
+
+    /* Post header */
+    .post-date { font-size: 12px; color: #9a8f82; font-weight: 450; letter-spacing: -0.2px; }
+    .post-topic { font-size: 44px; line-height: 1.05; letter-spacing: -2px; }
+
+    /*
+      Hero image — breaks out of the c/d zone.
+      Left edge: between a (0%) and c (20%) → 10% from container left.
+      Right edge: between d (80%) and b (100%) → 10% from container right.
+      % is relative to the position:relative wrapper width = full container width.
+    */
+    .post-image-full {
+      margin-left: 10%;
+      margin-right: 10%;
+      position: relative;
+      z-index: 1;
+    }
+    .post-image-full img {
+      width: 100%;
+      height: 440px;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+    }
+
+    /* Body content */
+    .post-body { font-size: 16px; line-height: 1.85; color: #4a4035; }
+    .post-body p { margin-bottom: 22px; }
+    .post-body h3 {
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      font-weight: 300;
+      font-size: 24px;
+      letter-spacing: -0.6px;
+      line-height: 1.2;
+      color: #1a1512;
+      margin-top: 48px;
+      margin-bottom: 16px;
+    }
+    .post-body strong { font-weight: 600; color: #1a1512; }
+    .post-body blockquote {
+      border-left: 2px solid #eae5de;
+      margin: 40px 0 0;
+      padding: 14px 24px;
+      color: #6b5f53;
+      font-style: italic;
+    }
+
+    /* Error / loading state */
+    .post-loading { font-size: 14px; color: #9a8f82; margin: 0 20%; padding: 60px 40px; }
+
+    /* Mobile */
+    @media (max-width: 1023px) {
+      .post-c-line, .post-d-line { display: none; }
+      .post-content-zone { margin-left: 0; margin-right: 0; padding: 0 20px; }
+      .post-topic { font-size: 26px; letter-spacing: -1px; }
+      .post-image-full { margin-left: 0; margin-right: 0; }
+      .post-image-full img { height: 220px; border-radius: 0; }
+      .post-body { font-size: 15px; }
+    }
+  </style>
+  <meta name="theme-color" content="#f7f4f0" />
+  <link rel="icon" type="image/jpeg" href="./ass/devoid_pro_logo.jpg" />
+  <link rel="apple-touch-icon" href="./ass/devoid_pro_logo.jpg" />
+
+  <!-- Title/meta updated dynamically by JS once blog data is loaded -->
+  <title>Devoid Blog</title>
+  <meta name="author" content="Devoid" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Devoid" />
+  <meta property="og:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+  <meta property="og:image:alt" content="Devoid logo" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://devoid.pro/#organization",
+        "name": "Devoid",
+        "url": "https://devoid.pro",
+        "logo": { "@type": "ImageObject", "url": "https://devoid.pro/ass/devoid_pro_logo.jpg" },
+        "description": "Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand — filling every skill gap without friction.",
+        "areaServed": "Worldwide",
+        "serviceType": ["Engineering Staff Augmentation", "Technical Team Extension", "On-Demand Engineering Teams"],
+        "sameAs": ["https://www.linkedin.com/company/devoid-pro"]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body
+  class="inter_5972bc34-module__OU16Qa__className martinaplantjin_e395065c-module__V_tPSa__variable bg-off-white font-sans antialiased">
+  <div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
+    <div class="flex-1 flex w-full max-w-[1204px] 2xl:max-w-[1440px] flex-col">
+
+      <div class="flex-1 border-l border-r border-c-300">
+
+        <!-- NAV — identical to blog.html ──────────────────────────────── -->
+        <div class="w-full border-b border-c-300">
+          <header
+            class="z-10 mx-auto flex w-full max-w-[1172px] flex-row items-center gap-8 font-[450] text-off-black px-3 lg:h-[88px] xl:p-0 pt-4">
+            <a href="./index.html">
+              <img src="./ass/devoid_pro_logo.jpg" alt="Devoid" class="inline-block rounded-sm"
+                style="height: 40px; width: 40px; filter: invert(1); mix-blend-mode: multiply;" />
+            </a>
+
+            <!-- Desktop: Blogs link -->
+            <a class="group relative hidden items-center gap-1 rounded-md text-center text-sm transition-opacity hover:opacity-70 active:opacity-100 lg:flex"
+              href="./writings.html">
+              Writings
+              <svg viewBox="0 0 10 9"
+                class="inline-block fill-current size-2.5 opacity-0 transition-opacity group-hover:opacity-100"
+                preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M5.52614 8.72409L4.75519 7.96238L7.66357 5.05399H0.249512V3.94604H7.66357L4.75519 1.04689L5.52614 0.27594L9.75022 4.50002L5.52614 8.72409Z">
+                </path>
+              </svg>
+            </a>
+
+            <!-- Mobile: Hamburger -->
+            <button
+              class="inline-flex items-center justify-center gap-1 text-[15px] cursor-pointer font-inter font-[450] leading-[11px] tracking-[-0.2px] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-off-black/5 h-12 w-12 rounded-full -mr-3 ml-auto lg:hidden text-off-black"
+              type="button" aria-label="Open mobile menu">
+              <svg viewBox="0 0 24 24" class="inline-block fill-current size-6" preserveAspectRatio="xMidYMid meet"
+                aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M22.5 15H1.5C1.22386 15 1 15.2239 1 15.5V16.5C1 16.7761 1.22386 17 1.5 17H22.5C22.7761 17 23 16.7761 23 16.5V15.5C23 15.2239 22.7761 15 22.5 15Z">
+                </path>
+                <path
+                  d="M22.5 7H1.5C1.22386 7 1 7.22386 1 7.5V8.5C1 8.77614 1.22386 9 1.5 9H22.5C22.7761 9 23 8.77614 23 8.5V7.5C23 7.22386 22.7761 7 22.5 7Z">
+                </path>
+              </svg>
+            </button>
+          </header>
+        </div>
+        <!-- END NAV ─────────────────────────────────────────────────────── -->
+
+        <!--
+          post-root sits directly inside the position:relative wrapper.
+          JS renders three siblings:
+            1. .post-content-zone  — back link + date + topic (header block)
+            2. .post-image-full    — image breaking out beyond c/d into a→c and d→b gutters
+            3. .post-content-zone  — body text
+        -->
+        <div style="position: relative;">
+          <div class="post-c-line"></div>
+          <div class="post-d-line"></div>
+          <div id="post-root">
+            <p class="post-loading">Loading…</p>
+          </div>
+        </div>
+
+      </div>
+      <!-- END BORDERED COLUMN ─────────────────────────────────────────── -->
+
+      <!-- FOOTER — identical to blog.html ────────────────────────────── -->
+      <footer class="relative flex h-full w-full grow flex-col">
+        <div
+          class="relative flex h-full grow flex-col overflow-hidden px-4 text-center lg:flex-row lg:px-6 lg:text-left border-c-300 border-r border-l border-t">
+          <!-- Footer Left Column -->
+          <div class="flex w-full flex-1 flex-col gap-16 pt-16 pb-20 lg:gap-6">
+            <div class="flex flex-col items-center gap-8 lg:hidden">
+              <div class="flex flex-col gap-8 lg:hidden">
+                <p class="text-center font-[450] text-base text-c-900 opacity-45 lg:text-sm">
+                  <a class="rounded-md text-center transition-opacity hover:opacity-75" href="">We're hiring</a>
+                </p>
+                <span class="font-[450] text-c-900 opacity-45 lg:hidden">
+                  <a href="">Terms</a> &amp;
+                  <a href="">Privacy</a>
+                </span>
+                <span class="font-[450] text-c-900 opacity-45 lg:hidden">
+                  <a href="">Support</a>
+                </span>
+                <div class="flex items-center justify-center gap-4 font-[450] text-c-900 text-sm lg:text-right">
+                  <div class="flex items-center gap-2">
+                    <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                      aria-label="LinkedIn" href="https://www.linkedin.com/company/devoid-pro">
+                      <img alt="LinkedIn" loading="lazy" width="24" height="24" decoding="async"
+                        class="inline-block size-6 lg:size-[18px]" src="./ass/social/linkedin.svg"
+                        style="color: transparent" />
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                      aria-label="X (Twitter)" href="/">
+                      <img alt="X (Twitter)" loading="lazy" width="24" height="24" decoding="async"
+                        class="inline-block size-6 lg:size-[18px]" src="./ass/social/x.svg"
+                        style="color: transparent" />
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                      aria-label="Instagram" href="">
+                      <img alt="Instagram" loading="lazy" width="24" height="24" decoding="async"
+                        class="inline-block size-6 lg:size-[18px]" src="./ass/social/insta.svg"
+                        style="color: transparent" />
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                      aria-label="TikTok" href="">
+                      <img alt="TikTok" loading="lazy" width="24" height="24" decoding="async"
+                        class="inline-block size-6 lg:size-[18px]" src="./ass/social/tiktok.svg"
+                        style="color: transparent" />
+                    </a>
+                    <a target="_blank" rel="noopener noreferrer"
+                      class="cursor-pointer transition-opacity hover:opacity-75" href="">
+                      <img alt="YouTube" loading="lazy" width="24" height="48" decoding="async"
+                        class="inline-block opacity-75" src="./ass/social/youtube.svg" style="color: transparent" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-6 text-left font-[450] text-c-500 text-xs tracking-tight">
+              <div class="flex flex-row gap-3">
+                <span>© Devoid</span>
+                <span class="hidden lg:inline-block">
+                  <a class="transition-opacity hover:opacity-75" href="">Terms</a>
+                  &amp;
+                  <a class="transition-opacity hover:opacity-75" href="">Privacy</a>
+                </span>
+                <span class="hidden lg:inline-block">
+                  <a class="transition-opacity hover:opacity-75" href="">Support</a>
+                </span>
+              </div>
+              <span>Devoid provides world-class engineering talent and seamless
+                team extension services to companies across the globe. We
+                specialize in identifying skill gaps, deploying highly vetted
+                professionals, and integrating them directly into your workflows
+                ensuring immediate impact and long-term scalability. From rapid
+                team augmentation to full-cycle product acceleration,</span>
+              <span>Devoid enables organizations to move faster, operate smarter,
+                and build without limitations. All engagements are tailored to
+                individual requirements, project scope, and business
+                objectives.</span>
+            </div>
+          </div>
+          <!-- Footer Right Column (desktop only) -->
+          <div class="hidden w-full flex-1 items-start justify-end gap-8 pt-16 pb-20 lg:flex">
+            <p class="text-center font-[450] text-base text-c-900 opacity-45 lg:text-sm">
+              <a class="rounded-md text-center transition-opacity hover:opacity-75" href="">We're hiring</a>
+            </p>
+            <div class="flex items-center justify-center gap-4 font-[450] text-c-900 text-sm lg:text-right">
+              <div class="flex items-center gap-2">
+                <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                  aria-label="LinkedIn" href="https://www.linkedin.com/company/devoid-pro">
+                  <img alt="LinkedIn" loading="lazy" width="24" height="24" decoding="async"
+                    class="inline-block size-6 lg:size-[18px]" src="./ass/social/linkedin.svg"
+                    style="color: transparent" />
+                </a>
+                <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                  aria-label="X (Twitter)" href="/">
+                  <img alt="X (Twitter)" loading="lazy" width="24" height="24" decoding="async"
+                    class="inline-block size-6 lg:size-[18px]" src="./ass/social/x.svg" style="color: transparent" />
+                </a>
+                <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                  aria-label="Instagram" href="/">
+                  <img alt="Instagram" loading="lazy" width="24" height="24" decoding="async"
+                    class="inline-block size-6 lg:size-[18px]" src="./ass/social/insta.svg"
+                    style="color: transparent" />
+                </a>
+                <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
+                  aria-label="TikTok" href="">
+                  <img alt="TikTok" loading="lazy" width="24" height="24" decoding="async"
+                    class="inline-block size-6 lg:size-[18px]" src="./ass/social/tiktok.svg"
+                    style="color: transparent" />
+                </a>
+                <a target="_blank" rel="noopener noreferrer" class="cursor-pointer transition-opacity hover:opacity-75"
+                  href="">
+                  <img alt="YouTube" loading="lazy" width="24" height="48" decoding="async"
+                    class="inline-block opacity-75" src="./ass/social/youtube.svg" style="color: transparent" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function formatDate(iso) {
+        var d = new Date(iso + 'T00:00:00');
+        return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var targetId = parseInt(params.get('id'), 10);
+      var root = document.getElementById('post-root');
+
+      if (!targetId) {
+        root.innerHTML = '<p class="post-loading">No post specified. <a href="./writings.html" style="color:#4a4035;">Back to Writings</a></p>';
+        return;
+      }
+
+      fetch('./blogs.json')
+        .then(function (r) { return r.json(); })
+        .then(function (blogs) {
+          var blog = null;
+          for (var i = 0; i < blogs.length; i++) {
+            if (blogs[i].id === targetId) { blog = blogs[i]; break; }
+          }
+
+          if (!blog) {
+            root.innerHTML = '<p class="post-loading">Post not found. <a href="./writings.html" style="color:#4a4035;">Back to Writings</a></p>';
+            return;
+          }
+
+          /* Update <title> and meta tags dynamically */
+          document.title = blog.topic + ' — Devoid';
+          var metaDesc = document.querySelector('meta[name="description"]');
+          if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
+          metaDesc.content = blog.miniDescription;
+
+          var ogTitle = document.querySelector('meta[property="og:title"]');
+          if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
+          ogTitle.content = blog.topic + ' — Devoid';
+
+          var ogDesc = document.querySelector('meta[property="og:description"]');
+          if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
+          ogDesc.content = blog.miniDescription;
+
+          /*
+            Render three sibling blocks:
+            1. Header zone (between c and d): back link + date + topic
+            2. Image full breakout (between a→c and d→b gutters)
+            3. Body zone (between c and d): article text
+          */
+
+          /* — 1. Header zone — */
+          var header = document.createElement('div');
+          header.className = 'post-content-zone';
+          header.style.paddingTop = '60px';
+          header.style.paddingBottom = '40px';
+          header.innerHTML =
+            '<a class="post-back" href="./writings.html">' +
+            '<svg viewBox="0 0 10 9" style="width:10px;height:10px;transform:rotate(180deg);fill:currentColor;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M5.52614 8.72409L4.75519 7.96238L7.66357 5.05399H0.249512V3.94604H7.66357L4.75519 1.04689L5.52614 0.27594L9.75022 4.50002L5.52614 8.72409Z"></path></svg>' +
+            'Back to Writings' +
+            '</a>' +
+            '<p class="post-date" style="margin-top:40px;">' + formatDate(blog.date) + '</p>' +
+            '<h1 class="post-topic font-serif font-light text-off-black" style="margin-top:14px;">' + blog.topic + '</h1>';
+
+          /* — 2. Image breakout — */
+          var imageWrap = document.createElement('div');
+          imageWrap.className = 'post-image-full';
+          imageWrap.style.marginBottom = '0';
+          imageWrap.innerHTML =
+            '<img src="' + blog.imageUrl + '" alt="' + blog.topic + '" />';
+
+          /* — 3. Body zone — */
+          var body = document.createElement('div');
+          body.className = 'post-content-zone';
+          body.style.paddingTop = '48px';
+          body.style.paddingBottom = '80px';
+          body.innerHTML = '<div class="post-body">' + blog.description + '</div>';
+
+          root.innerHTML = '';
+          root.appendChild(header);
+          root.appendChild(imageWrap);
+          root.appendChild(body);
+        })
+        .catch(function (e) {
+          console.error('Failed to load blog:', e);
+          root.innerHTML = '<p class="post-loading">Failed to load post. <a href="./writings.html" style="color:#4a4035;">Back to Writings</a></p>';
+        });
+    })();
+  </script>
+</body>
+
+</html>

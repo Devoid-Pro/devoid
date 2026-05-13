@@ -29,6 +29,7 @@ Copy this for every new page. Replace all `[PLACEHOLDERS]`.
 ```
 
 Also include in `<head>` (same on every page):
+
 ```html
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -36,6 +37,7 @@ Also include in `<head>` (same on every page):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./styles.css" />
+<link rel="stylesheet" href="./custom.css" />
 <meta name="theme-color" content="#f7f4f0" />
 <link rel="icon" type="image/jpeg" href="./ass/devoid_pro_logo.jpg" />
 <link rel="apple-touch-icon" href="./ass/devoid_pro_logo.jpg" />
@@ -48,6 +50,7 @@ Also include in `<head>` (same on every page):
 Always include the `Organization` node on every page. Add page-type nodes alongside it.
 
 ### Organization node (always present)
+
 ```json
 {
   "@type": "Organization",
@@ -66,6 +69,7 @@ Always include the `Organization` node on every page. Add page-type nodes alongs
 ### Page-specific nodes
 
 **index.html** — add `WebSite`:
+
 ```json
 {
   "@type": "WebSite",
@@ -76,29 +80,31 @@ Always include the `Organization` node on every page. Add page-type nodes alongs
 }
 ```
 
-**blog.html** — add `Blog`:
+**writings.html** — add `Blog`:
+
 ```json
 {
   "@type": "Blog",
-  "@id": "https://devoid.pro/blog.html#blog",
-  "url": "https://devoid.pro/blog.html",
-  "name": "Devoid Blog",
+  "@id": "https://devoid.pro/writings.html#blog",
+  "url": "https://devoid.pro/writings.html",
+  "name": "Devoid Writings",
   "description": "Insights on staff augmentation, hiring top tech talent from Sri Lanka, and scaling engineering teams.",
   "publisher": { "@id": "https://devoid.pro/#organization" }
 }
 ```
 
-**Individual blog post page** — add `BlogPosting`:
+**Individual writing post (writing-item.html)** — add `BlogPosting`:
+
 ```json
 {
   "@type": "BlogPosting",
-  "@id": "https://devoid.pro/blog/[slug].html#article",
-  "url": "https://devoid.pro/blog/[slug].html",
+  "@id": "https://devoid.pro/writing-item.html?id=N#article",
+  "url": "https://devoid.pro/writing-item.html?id=N",
   "headline": "[Post title]",
   "datePublished": "YYYY-MM-DD",
   "author": { "@id": "https://devoid.pro/#organization" },
   "publisher": { "@id": "https://devoid.pro/#organization" },
-  "isPartOf": { "@id": "https://devoid.pro/blog.html#blog" }
+  "isPartOf": { "@id": "https://devoid.pro/writings.html#blog" }
 }
 ```
 
@@ -108,7 +114,7 @@ Always include the `Organization` node on every page. Add page-type nodes alongs
 
 File location: `devoid/robots.txt`
 
-```
+```text
 User-agent: *
 Allow: /
 Sitemap: https://devoid.pro/sitemap.xml
@@ -121,6 +127,7 @@ Sitemap: https://devoid.pro/sitemap.xml
 File location: `devoid/sitemap.xml`
 
 ### Current sitemap
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -133,7 +140,7 @@ File location: `devoid/sitemap.xml`
   </url>
 
   <url>
-    <loc>https://devoid.pro/blog.html</loc>
+    <loc>https://devoid.pro/writings.html</loc>
     <lastmod>2026-05-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -145,21 +152,23 @@ File location: `devoid/sitemap.xml`
 ### When to update sitemap.xml
 
 | Event | Action |
-|---|---|
+| --- | --- |
 | New page added | Add a `<url>` entry |
 | Existing page significantly updated | Update `<lastmod>` to today's date (YYYY-MM-DD) |
-| New blog post added to blogs.json | Update `<lastmod>` of `blog.html` entry |
+| New post added to blogs.json | Update `<lastmod>` of `writings.html` entry |
 | Page removed | Remove its `<url>` entry |
 
 ### Priority guide
+
 - `1.0` — homepage only
-- `0.8` — primary section pages (blog listing, about, etc.)
-- `0.6` — individual blog posts
+- `0.8` — primary section pages (writings listing, about, etc.)
+- `0.6` — individual writing posts
 - `0.4` — utility pages (terms, privacy)
 
 ### changefreq guide
+
 - `monthly` — homepage, about
-- `weekly` — blog listing (gets new posts)
+- `weekly` — writings listing (gets new posts)
 - `never` — individual archived posts
 
 ---
@@ -167,13 +176,15 @@ File location: `devoid/sitemap.xml`
 ## Existing Pages SEO Summary
 
 ### index.html
+
 - Title: `Devoid`
 - Canonical: `https://devoid.pro/`
 - Description: Connects US startups with elite Sri Lankan engineers, PMs, QA, DevOps, UI/UX. Scale tech teams on demand.
 - JSON-LD: Organization + WebSite
 
-### blog.html
-- Title: `Devoid Blog — Insights on Scaling Tech Teams`
-- Canonical: `https://devoid.pro/blog.html`
-- Description: Blog covering staff augmentation, hiring top tech talent from Sri Lanka, scaling engineering teams.
+### writings.html
+
+- Title: `Devoid Writings — Insights on Scaling Tech Teams`
+- Canonical: `https://devoid.pro/writings.html`
+- Description: Writings covering staff augmentation, hiring top tech talent from Sri Lanka, scaling engineering teams.
 - JSON-LD: Organization + Blog
