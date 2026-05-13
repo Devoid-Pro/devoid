@@ -3,35 +3,80 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <meta name="theme-color" content="#f7f4f0" />
   <link rel="icon" type="image/jpeg" href="./ass/devoid_pro_logo.jpg" />
+  <link rel="apple-touch-icon" href="./ass/devoid_pro_logo.jpg" />
+
   <title>Devoid</title>
-  <meta name="description" content="Building a financial institution for how we live and work today." />
-  <meta property="og:title" content="Devoid" />
-  <meta property="og:description" content="Building a financial institution for how we live and work today." />
+  <meta name="description"
+    content="Devoid connects US startups with elite software engineers, PMs, QA, DevOps &amp; UI/UX designers from Sri Lanka. Scale your tech team on demand, without friction." />
+  <meta name="author" content="Devoid" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="https://devoid.pro/" />
+
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Devoid" />
+  <meta property="og:url" content="https://devoid.pro/" />
+  <meta property="og:title" content="Devoid — Scale Tech Teams Without Friction" />
+  <meta property="og:description"
+    content="Devoid connects US startups with elite software engineers, PMs, QA, DevOps &amp; UI/UX designers from Sri Lanka. Scale your tech team on demand, without friction." />
+  <meta property="og:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+  <meta property="og:image:alt" content="Devoid logo" />
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Devoid" />
-  <meta name="twitter:description" content="Building a financial institution for how we live and work today." />
+  <meta name="twitter:title" content="Devoid — Scale Tech Teams Without Friction" />
+  <meta name="twitter:description"
+    content="Devoid connects US startups with elite software engineers, PMs, QA, DevOps &amp; UI/UX designers from Sri Lanka. Scale your tech team on demand, without friction." />
+  <meta name="twitter:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://devoid.pro/#organization",
+        "name": "Devoid",
+        "url": "https://devoid.pro",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://devoid.pro/ass/devoid_pro_logo.jpg"
+        },
+        "description": "Devoid connects companies with world-class tech talent from Sri Lanka — software engineers, PMs, QA, DevOps, and UI/UX designers — on demand.",
+        "foundingLocation": { "@type": "Country", "name": "Sri Lanka" },
+        "areaServed": "Worldwide",
+        "serviceType": ["Staff Augmentation", "Tech Talent Outsourcing", "Team Extension"],
+        "sameAs": ["https://www.linkedin.com/company/devoid-pro"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://devoid.pro/#website",
+        "url": "https://devoid.pro",
+        "name": "Devoid",
+        "publisher": { "@id": "https://devoid.pro/#organization" }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body
   class="inter_5972bc34-module__OU16Qa__className martinaplantjin_e395065c-module__V_tPSa__variable bg-off-white font-sans antialiased">
   <div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
     <!-- Hero Section -->
-    <div
+    <main
       class="relative box-border flex min-h-screen w-full flex-col max-w-[1204px] 2xl:max-w-[1440px] md:h-[881px] md:min-h-auto lg:max-h-svh">
       <!-- Background Image -->
       <div class="absolute h-full w-full overflow-hidden transition-opacity duration-400 opacity-100">
-        <img alt="bg"
+        <img alt="Devoid — world-class tech talent from Sri Lanka"
           class="pointer-events-none absolute h-full w-full select-none object-cover transition-transform duration-1000"
-          src="./ass/devoid_hero_bg.jpg" style="
+          src="./ass/devoid_hero_bg.jpg" fetchpriority="high" width="1204" height="881" style="
               position: absolute;
               height: 100%;
               width: 100%;
@@ -46,7 +91,7 @@
         class="relative flex h-full grow flex-col items-center justify-center gap-12 overflow-hidden px-4 sm:gap-16 sm:px-8">
         <!-- Navigation -->
         <div class="w-full" style="opacity: 1; transform: none">
-          <div
+          <header
             class="z-10 mx-auto flex w-full max-w-[1172px] flex-row items-center gap-8 font-[450] text-off-white px-3 lg:h-[88px] xl:p-0 pt-4">
             <!-- Logo -->
             <a class="" href="/">
@@ -54,10 +99,10 @@
                 style="mix-blend-mode: screen; height: 40px; width: 40px" />
             </a>
 
-            <!-- Desktop: We're hiring link -->
+            <!-- Desktop: Blogs link -->
             <a class="group relative hidden items-center gap-1 rounded-md text-center text-sm transition-opacity hover:opacity-70 active:opacity-100 lg:flex"
-              href="">
-              We're building
+              href="./blog.html">
+              Blogs
               <svg viewBox="0 0 10 9"
                 class="inline-block fill-current size-2.5 opacity-0 transition-opacity group-hover:opacity-100"
                 preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +126,7 @@
                 </path>
               </svg>
             </button>
-          </div>
+          </header>
         </div>
 
         <!-- Hero Text + Form -->
@@ -138,10 +183,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <div class="relative flex h-full w-full max-w-[1204px] grow flex-col 2xl:max-w-[1440px]">
+    <footer class="relative flex h-full w-full max-w-[1204px] grow flex-col 2xl:max-w-[1440px]">
       <div
         class="relative flex h-full grow flex-col overflow-hidden px-4 text-center lg:flex-row lg:px-6 lg:text-left border-c-300 border-r border-l">
         <!-- Footer Left Column -->
@@ -265,7 +310,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   </div>
 </body>
 
