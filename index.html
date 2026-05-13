@@ -3,22 +3,64 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./custom.css" />
   <meta name="theme-color" content="#f7f4f0" />
   <link rel="icon" type="image/jpeg" href="./ass/devoid_pro_logo.jpg" />
-  <title>Devoid</title>
-  <meta name="description" content="Building a financial institution for how we live and work today." />
-  <meta property="og:title" content="Devoid" />
-  <meta property="og:description" content="Building a financial institution for how we live and work today." />
+  <link rel="apple-touch-icon" href="./ass/devoid_pro_logo.jpg" />
+
+  <title>Devoid — Scale Engineering Teams Without Friction</title>
+  <meta name="description" content="Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Fill every skill gap and scale your team without friction." />
+  <meta name="author" content="Devoid" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="canonical" href="https://devoid.pro/" />
+
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Devoid" />
+  <meta property="og:url" content="https://devoid.pro/" />
+  <meta property="og:title" content="Devoid — Scale Engineering Teams Without Friction" />
+  <meta property="og:description" content="Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Fill every skill gap and scale your team without friction." />
+  <meta property="og:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+  <meta property="og:image:alt" content="Devoid logo" />
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Devoid" />
-  <meta name="twitter:description" content="Building a financial institution for how we live and work today." />
+  <meta name="twitter:title" content="Devoid — Scale Engineering Teams Without Friction" />
+  <meta name="twitter:description" content="Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Fill every skill gap and scale your team without friction." />
+  <meta name="twitter:image" content="https://devoid.pro/ass/devoid_pro_logo.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://devoid.pro/#organization",
+        "name": "Devoid",
+        "url": "https://devoid.pro",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://devoid.pro/ass/devoid_pro_logo.jpg"
+        },
+        "description": "Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand — filling every skill gap without friction.",
+        "areaServed": "Worldwide",
+        "serviceType": ["Engineering Staff Augmentation", "Technical Team Extension", "On-Demand Engineering Teams"],
+        "sameAs": ["https://www.linkedin.com/company/devoid-pro"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://devoid.pro/#website",
+        "url": "https://devoid.pro",
+        "name": "Devoid",
+        "publisher": { "@id": "https://devoid.pro/#organization" }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body
@@ -29,9 +71,13 @@
       class="relative box-border flex min-h-screen w-full flex-col max-w-[1204px] 2xl:max-w-[1440px] md:h-[881px] md:min-h-auto lg:max-h-svh">
       <!-- Background Image -->
       <div class="absolute h-full w-full overflow-hidden transition-opacity duration-400 opacity-100">
-        <img alt="bg"
+        <img alt="Devoid — scale engineering teams without friction"
           class="pointer-events-none absolute h-full w-full select-none object-cover transition-transform duration-1000"
-          src="./ass/devoid_hero_bg.jpg" style="
+          src="./ass/devoid_hero_bg.jpg"
+          fetchpriority="high"
+          width="1204"
+          height="881"
+          style="
               position: absolute;
               height: 100%;
               width: 100%;
@@ -54,10 +100,10 @@
                 style="mix-blend-mode: screen; height: 40px; width: 40px" />
             </a>
 
-            <!-- Desktop: We're hiring link -->
+            <!-- Desktop: Blogs link -->
             <a class="group relative hidden items-center gap-1 rounded-md text-center text-sm transition-opacity hover:opacity-70 active:opacity-100 lg:flex"
-              href="">
-              We're building
+              href="./writings.html">
+              Writings
               <svg viewBox="0 0 10 9"
                 class="inline-block fill-current size-2.5 opacity-0 transition-opacity group-hover:opacity-100"
                 preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -141,13 +187,13 @@
     </div>
 
     <!-- Footer -->
-    <div class="relative flex h-full w-full max-w-[1204px] grow flex-col 2xl:max-w-[1440px]">
+    <footer class="relative flex h-full w-full max-w-[1204px] grow flex-col 2xl:max-w-[1440px]">
       <div
         class="relative flex h-full grow flex-col overflow-hidden px-4 text-center lg:flex-row lg:px-6 lg:text-left border-c-300 border-r border-l">
         <!-- Footer Left Column -->
         <div class="flex w-full flex-1 flex-col gap-16 pt-16 pb-20 lg:gap-6">
           <!-- Logo + Mobile Nav -->
-          <div class="flex flex-col items-center gap-8 lg:flex-row">
+          <div class="flex flex-col items-center gap-8 lg:hidden">
             <!-- <img
                 src="./ass/devoid_pro_logo.jpg"
                 alt="Devoid"
@@ -265,7 +311,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   </div>
 </body>
 
