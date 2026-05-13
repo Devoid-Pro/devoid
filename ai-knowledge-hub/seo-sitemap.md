@@ -58,10 +58,9 @@ Always include the `Organization` node on every page. Add page-type nodes alongs
   "name": "Devoid",
   "url": "https://devoid.pro",
   "logo": { "@type": "ImageObject", "url": "https://devoid.pro/ass/devoid_pro_logo.jpg" },
-  "description": "Devoid connects companies with world-class tech talent from Sri Lanka — software engineers, PMs, QA, DevOps, and UI/UX designers — on demand.",
-  "foundingLocation": { "@type": "Country", "name": "Sri Lanka" },
+  "description": "Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand — filling every skill gap without friction.",
   "areaServed": "Worldwide",
-  "serviceType": ["Staff Augmentation", "Tech Talent Outsourcing", "Team Extension"],
+  "serviceType": ["Engineering Staff Augmentation", "Technical Team Extension", "On-Demand Engineering Teams"],
   "sameAs": ["https://www.linkedin.com/company/devoid-pro"]
 }
 ```
@@ -88,7 +87,7 @@ Always include the `Organization` node on every page. Add page-type nodes alongs
   "@id": "https://devoid.pro/writings.html#blog",
   "url": "https://devoid.pro/writings.html",
   "name": "Devoid Writings",
-  "description": "Insights on staff augmentation, hiring top tech talent from Sri Lanka, and scaling engineering teams.",
+  "description": "Insights on staff augmentation, scaling engineering teams, and building high-performance tech organisations.",
   "publisher": { "@id": "https://devoid.pro/#organization" }
 }
 ```
@@ -177,14 +176,14 @@ File location: `devoid/sitemap.xml`
 
 ### index.html
 
-- Title: `Devoid`
+- Title: `Devoid — Scale Engineering Teams Without Friction`
 - Canonical: `https://devoid.pro/`
-- Description: Connects US startups with elite Sri Lankan engineers, PMs, QA, DevOps, UI/UX. Scale tech teams on demand.
+- Description: Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Fill every skill gap and scale your team without friction.
 - JSON-LD: Organization + WebSite
 
 ### writings.html
 
 - Title: `Devoid Writings — Insights on Scaling Tech Teams`
 - Canonical: `https://devoid.pro/writings.html`
-- Description: Writings covering staff augmentation, hiring top tech talent from Sri Lanka, scaling engineering teams.
+- Description: Insights on staff augmentation, scaling engineering teams, and building high-performance tech organisations.
 - JSON-LD: Organization + Blog

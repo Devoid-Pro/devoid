@@ -82,7 +82,7 @@ style="mix-blend-mode: screen; height: 40px; width: 40px"
 
 Screen blend mode makes the dark JPG background vanish against a dark hero.
 
-**On light/off-white backgrounds (blog.html and all interior pages):**
+**On light/off-white backgrounds (writings.html and all interior pages):**
 
 ```html
 style="height: 40px; width: 40px; filter: invert(1); mix-blend-mode: multiply;"
