@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "order": 1,
+    "slug": "sri-lankan-engineers-us-startups",
+    "topic": "Why Sri Lankan Engineers Are Powering US Startups",
+    "date": "2026-05-10",
+    "miniDescription": "Devoid has placed its first cohort of engineers across three US startups, cutting hiring timelines from months to weeks.",
+    "description": "Full article content goes here.",
+    "imageUrl": "./ass/blog-bg/blog-1.jpg"
+  },
+  {
+    "id": 2,
+    "order": 2,
+    "slug": "staff-augmentation-vs-outsourcing",
+    "topic": "Staff Augmentation vs. Outsourcing: What Startups Get Wrong",
+    "date": "2026-04-22",
+    "miniDescription": "Most founders conflate staff augmentation with traditional outsourcing. Here is why that mistake costs time, money, and momentum.",
+    "description": "Full article content goes here.",
+    "imageUrl": "./ass/blog-bg/blog-1.jpg"
+  },
+  {
+    "id": 3,
+    "order": 3,
+    "slug": "hiring-without-borders",
+    "topic": "Hiring Without Borders: How to Build a Remote-First Engineering Team",
+    "date": "2026-04-05",
+    "miniDescription": "The playbook for integrating distributed talent directly into your product workflow — from day one.",
+    "description": "Full article content goes here.",
+    "imageUrl": "./ass/blog-bg/blog-1.jpg"
+  }
+]
