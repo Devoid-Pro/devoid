@@ -2,6 +2,28 @@ import { render as renderHome }        from './pages/home.js';
 import { render as renderWritings }    from './pages/writings.js';
 import { render as renderWritingItem } from './pages/writing-item.js';
 
+/* ─── Connection quality flag (read by page modules) ────────────────────── */
+
+window.__devoidSlowConn = !!(
+  navigator.connection &&
+  (navigator.connection.saveData ||
+    ['slow-2g', '2g'].indexOf(navigator.connection.effectiveType) !== -1)
+);
+
+/* ─── Loader ─────────────────────────────────────────────────────────────── */
+
+var _loaderDismissed = false;
+function dismissLoader() {
+  if (_loaderDismissed) return;
+  _loaderDismissed = true;
+  var loader = document.getElementById('page-loader');
+  if (!loader) return;
+  loader.classList.add('hidden');
+  setTimeout(function () {
+    if (loader.parentNode) loader.parentNode.removeChild(loader);
+  }, 450);
+}
+
 /* ─── Head updater ──────────────────────────────────────────────────────── */
 
 function updateHead(meta) {
@@ -58,20 +80,12 @@ function setCanonical(href) {
 
 /* ─── Route table ───────────────────────────────────────────────────────── */
 
-/*
-  Each route:
-    path    — exact string or pattern string with :param tokens
-    render  — page render function(appEl, params, updateHead)
-    pattern — compiled RegExp (built below)
-    keys    — ordered param names extracted from path
-*/
 var routes = [
   { path: '/',             render: renderHome        },
   { path: '/writings',     render: renderWritings    },
   { path: '/writing/:id',  render: renderWritingItem },
 ];
 
-/* Compile route patterns once */
 routes.forEach(function (route) {
   var keys = [];
   var pattern = route.path.replace(/:([^/]+)/g, function (_, key) {
@@ -84,11 +98,13 @@ routes.forEach(function (route) {
 
 /* ─── Router ────────────────────────────────────────────────────────────── */
 
-function router() {
-  var path   = window.location.pathname;
-  var appEl  = document.getElementById('app');
+var _firstRender = true;
 
-  /* Silently redirect legacy .html URLs */
+function router() {
+  var path  = window.location.pathname;
+  var appEl = document.getElementById('app');
+
+  /* Redirect legacy .html URLs */
   if (path.endsWith('.html')) {
     var clean = path
       .replace(/\.html$/, '')
@@ -97,8 +113,15 @@ function router() {
     path = clean;
   }
 
-  /* Scroll to top on every navigation */
   window.scrollTo(0, 0);
+
+  /* Page fade-in animation (skip on the very first render — loader handles that) */
+  if (!_firstRender) {
+    appEl.classList.remove('page-enter');
+    void appEl.offsetWidth; /* force reflow to restart animation */
+    appEl.classList.add('page-enter');
+  }
+  _firstRender = false;
 
   /* Match route */
   for (var i = 0; i < routes.length; i++) {
@@ -110,6 +133,7 @@ function router() {
         params[key] = decodeURIComponent(match[idx + 1] || '');
       });
       route.render(appEl, params, updateHead);
+      dismissLoader();
       return;
     }
   }
@@ -121,17 +145,45 @@ function router() {
     '<a href="/" data-link style="color:#4a4035;">Go home</a></p>' +
     '</div>';
   document.title = '404 — Devoid';
+  dismissLoader();
 }
 
-/* ─── Link interception (event delegation) ──────────────────────────────── */
+/* ─── Link interception + mobile menu (event delegation) ────────────────── */
+
+function openMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  if (!menu) return;
+  menu.style.display = 'flex';
+  menu.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+  var menu = document.getElementById('mobile-menu');
+  if (!menu) return;
+  menu.style.display = 'none';
+  menu.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
 
 document.addEventListener('click', function (e) {
+  if (e.target.closest('#nav-hamburger')) {
+    openMobileMenu();
+    return;
+  }
+
+  if (e.target.closest('#nav-menu-close')) {
+    closeMobileMenu();
+    return;
+  }
+
   var link = e.target.closest('a[data-link]');
   if (!link) return;
   e.preventDefault();
+  closeMobileMenu();
   var href = link.getAttribute('href');
   if (!href || href === '#') return;
-  if (href === window.location.pathname) return; /* same page — no-op */
+  if (href === window.location.pathname) return;
   history.pushState(null, '', href);
   router();
 });

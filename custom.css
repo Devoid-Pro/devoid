@@ -225,3 +225,82 @@ html {
   .post-image-full img { height: 220px; border-radius: 0; }
   .post-body { font-size: 15px; }
 }
+
+/* ============================================================
+   Page loader
+   ============================================================ */
+
+#page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #F7F4F0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+#loader-logo {
+  height: 36px;
+  width: auto;
+  filter: invert(1);
+  mix-blend-mode: multiply;
+  animation: loader-breathe 2s ease-in-out infinite;
+}
+@keyframes loader-breathe {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 0.9;  transform: scale(1.04); }
+}
+#loader-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #EAE5DE;
+  overflow: hidden;
+}
+#loader-progress-fill {
+  height: 100%;
+  width: 45%;
+  background: linear-gradient(90deg, transparent, #9a8f82, transparent);
+  animation: loader-sweep 1.8s ease-in-out infinite;
+}
+@keyframes loader-sweep {
+  0%   { transform: translateX(-200%); }
+  100% { transform: translateX(400%);  }
+}
+
+/* ============================================================
+   Page transition
+   ============================================================ */
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(7px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+#app.page-enter {
+  animation: page-fade-in 0.22s ease forwards;
+}
+
+/* ============================================================
+   Skeleton loaders (blog card shimmer)
+   ============================================================ */
+
+.sk-line {
+  background: linear-gradient(90deg, #eae5de 25%, #f0ece6 50%, #eae5de 75%);
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  height: 12px;
+}
+@keyframes sk-shimmer {
+  0%   { background-position: 200% 0;  }
+  100% { background-position: -200% 0; }
+}

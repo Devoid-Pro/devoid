@@ -17,7 +17,7 @@ export function createNav(isDark = false, activePage = null) {
       <header class="z-10 mx-auto flex w-full max-w-[1172px] flex-row items-center gap-8 font-[450] ${textColor} px-3 lg:h-[88px] xl:p-0 pt-4">
 
         <a href="/" data-link>
-          <img src="./ass/devoid_pro_logo.png" alt="Devoid" class="inline-block"
+          <img src="/ass/devoid_pro_logo.png" alt="Devoid" class="inline-block"
             style="${logoStyle}" />
         </a>
 
@@ -42,6 +42,33 @@ export function createNav(isDark = false, activePage = null) {
         </button>
 
       </header>
+    </div>
+
+    <!-- Mobile menu overlay -->
+    <div id="mobile-menu" aria-hidden="true"
+      style="display:none;position:fixed;inset:0;z-index:200;background:#F7F4F0;flex-direction:column;">
+      <!-- Menu header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 12px;border-bottom:1px solid #E8E3DC;">
+        <a href="/" data-link>
+          <img src="/ass/devoid_pro_logo.png" alt="Devoid"
+            style="height:36px;width:auto;filter:invert(1);mix-blend-mode:multiply;" />
+        </a>
+        <button id="nav-menu-close" type="button" aria-label="Close menu"
+          style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;border:none;background:transparent;cursor:pointer;color:#140E00;margin-right:-12px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            style="width:20px;height:20px;" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <!-- Menu links -->
+      <nav style="display:flex;flex-direction:column;padding:32px 24px;gap:0;">
+        <a href="/writings" data-link${writingsActive}
+          style="display:block;padding:16px 0;font-size:20px;font-weight:450;color:#140E00;text-decoration:none;border-bottom:1px solid #E8E3DC;transition:opacity 0.2s;"
+          onmouseenter="this.style.opacity='0.6'" onmouseleave="this.style.opacity='1'">
+          Writings
+        </a>
+      </nav>
     </div>
   `;
 }

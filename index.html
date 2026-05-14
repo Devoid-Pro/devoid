@@ -13,8 +13,15 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- DNS + connection warm-up -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+
+  <!-- Preload critical assets -->
+  <link rel="preload" as="image" href="/ass/devoid_pro_logo.png" />
+  <link rel="prefetch" href="/blogs.json" />
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./custom.css" />
@@ -26,10 +33,26 @@
   <title>Devoid</title>
   <meta name="author" content="Devoid" />
   <meta name="robots" content="index, follow" />
+
+  <!-- Service worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+      });
+    }
+  </script>
 </head>
 
 <body
   class="inter_5972bc34-module__OU16Qa__className martinaplantjin_e395065c-module__V_tPSa__variable bg-off-white font-sans antialiased">
+
+  <!-- Themed loading screen — dismissed by app.js after first render -->
+  <div id="page-loader" aria-hidden="true">
+    <img id="loader-logo" src="/ass/devoid_pro_logo.png" alt="Devoid" />
+    <div id="loader-progress"><div id="loader-progress-fill"></div></div>
+  </div>
+
   <div id="app"></div>
   <script type="module" src="./app.js"></script>
 </body>

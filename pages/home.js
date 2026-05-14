@@ -41,22 +41,27 @@ const HEAD_META = {
  * @param {function} updateHead
  */
 export function render(appEl, _params, updateHead) {
+  var slowConn = window.__devoidSlowConn;
+
+  /* On slow/save-data connections skip the 1MB hero JPEG and use a CSS gradient */
+  var heroBgHtml = slowConn
+    ? '<div style="position:absolute;inset:0;background:linear-gradient(150deg,#1a100a 0%,#2d1f12 60%,#3d2a18 100%);"></div>'
+    : '<img id="hero-bg-img" alt="Devoid — scale engineering teams without friction"' +
+      ' class="pointer-events-none absolute h-full w-full select-none object-cover transition-transform duration-1000"' +
+      ' src="/ass/devoid_hero_bg.jpg" fetchpriority="high" decoding="async" width="1204" height="881"' +
+      ' style="position:absolute;height:100%;width:100%;inset:0px;color:transparent;opacity:0;transition:opacity 0.6s ease;" />' +
+      '<div class="absolute top-0 h-1/3 w-full bg-gradient-to-b from-black/30 via-75% to-transparent"></div>';
+
   appEl.innerHTML = `
-    <div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
+    <div class="flex flex-col items-center bg-off-white text-off-black">
+      <div class="flex w-full max-w-[1204px] 2xl:max-w-[1440px] flex-col">
 
       <!-- Hero Section -->
-      <div class="relative box-border flex min-h-screen w-full flex-col max-w-[1204px] 2xl:max-w-[1440px] md:h-[881px] md:min-h-auto lg:max-h-svh">
+      <div class="relative box-border flex min-h-screen w-full flex-col md:h-[881px] md:min-h-auto lg:max-h-svh">
 
-        <!-- Background Image -->
+        <!-- Background Image / Gradient -->
         <div class="absolute h-full w-full overflow-hidden transition-opacity duration-400 opacity-100">
-          <img alt="Devoid — scale engineering teams without friction"
-            class="pointer-events-none absolute h-full w-full select-none object-cover transition-transform duration-1000"
-            src="./ass/devoid_hero_bg.jpg"
-            fetchpriority="high"
-            width="1204"
-            height="881"
-            style="position: absolute; height: 100%; width: 100%; inset: 0px; color: transparent;" />
-          <div class="absolute top-0 h-1/3 w-full bg-gradient-to-b from-black/30 via-75% to-transparent"></div>
+          ${heroBgHtml}
         </div>
 
         <!-- Hero Content -->
@@ -119,8 +124,22 @@ export function render(appEl, _params, updateHead) {
       <!-- Footer -->
       ${createFooter()}
 
+      </div>
     </div>
   `;
 
   updateHead(HEAD_META);
+
+  /* Progressive image reveal once hero bg decodes */
+  if (!slowConn) {
+    var heroImg = document.getElementById('hero-bg-img');
+    if (heroImg) {
+      var revealHero = function () { heroImg.style.opacity = '1'; };
+      if (heroImg.complete && heroImg.naturalWidth > 0) {
+        revealHero();
+      } else {
+        heroImg.addEventListener('load', revealHero, { once: true });
+      }
+    }
+  }
 }

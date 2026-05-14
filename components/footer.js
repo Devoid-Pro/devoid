@@ -26,19 +26,19 @@ export function createFooter() {
                   <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                     aria-label="LinkedIn" href="https://www.linkedin.com/company/devoid-pro">
                     <img alt="LinkedIn" loading="lazy" width="24" height="24" decoding="async"
-                      class="inline-block size-6 lg:size-[18px]" src="./ass/social/linkedin.svg"
+                      class="inline-block size-6 lg:size-[18px]" src="/ass/social/linkedin.svg"
                       style="color: transparent" />
                   </a>
                   <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                     aria-label="X (Twitter)" href="https://x.com/devoidpro">
                     <img alt="X (Twitter)" loading="lazy" width="24" height="24" decoding="async"
-                      class="inline-block size-6 lg:size-[18px]" src="./ass/social/x.svg"
+                      class="inline-block size-6 lg:size-[18px]" src="/ass/social/x.svg"
                       style="color: transparent" />
                   </a>
                   <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                     aria-label="Instagram" href="https://www.instagram.com/devoid.pro">
                     <img alt="Instagram" loading="lazy" width="24" height="24" decoding="async"
-                      class="inline-block size-6 lg:size-[18px]" src="./ass/social/insta.svg"
+                      class="inline-block size-6 lg:size-[18px]" src="/ass/social/insta.svg"
                       style="color: transparent" />
                   </a>
                   <a href="mailto:contact@devoid.pro" class="transition-opacity hover:opacity-75" aria-label="Email">
@@ -86,18 +86,18 @@ export function createFooter() {
               <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                 aria-label="LinkedIn" href="https://www.linkedin.com/company/devoid-pro">
                 <img alt="LinkedIn" loading="lazy" width="24" height="24" decoding="async"
-                  class="inline-block size-6 lg:size-[18px]" src="./ass/social/linkedin.svg"
+                  class="inline-block size-6 lg:size-[18px]" src="/ass/social/linkedin.svg"
                   style="color: transparent" />
               </a>
               <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                 aria-label="X (Twitter)" href="https://x.com/devoidpro">
                 <img alt="X (Twitter)" loading="lazy" width="24" height="24" decoding="async"
-                  class="inline-block size-6 lg:size-[18px]" src="./ass/social/x.svg" style="color: transparent" />
+                  class="inline-block size-6 lg:size-[18px]" src="/ass/social/x.svg" style="color: transparent" />
               </a>
               <a target="_blank" rel="noopener noreferrer" class="transition-opacity hover:opacity-75"
                 aria-label="Instagram" href="https://www.instagram.com/devoid.pro">
                 <img alt="Instagram" loading="lazy" width="24" height="24" decoding="async"
-                  class="inline-block size-6 lg:size-[18px]" src="./ass/social/insta.svg" style="color: transparent" />
+                  class="inline-block size-6 lg:size-[18px]" src="/ass/social/insta.svg" style="color: transparent" />
               </a>
               <a href="mailto:contact@devoid.pro" class="transition-opacity hover:opacity-75" aria-label="Email">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="inline-block size-6 lg:size-[18px]" fill="currentColor" aria-hidden="true">

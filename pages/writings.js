@@ -40,9 +40,27 @@ function formatDate(iso) {
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
+function skeletonCard() {
+  return '<div class="blog-card">' +
+    '<div class="blog-card-date"><div class="sk-line" style="width:90px;height:11px;"></div></div>' +
+    '<div class="blog-card-topic">' +
+      '<div class="sk-line" style="width:92%;height:20px;margin-bottom:8px;"></div>' +
+      '<div class="sk-line" style="width:68%;height:20px;"></div>' +
+    '</div>' +
+    '<div class="blog-card-desc">' +
+      '<div class="sk-line" style="margin-bottom:8px;"></div>' +
+      '<div class="sk-line" style="margin-bottom:8px;"></div>' +
+      '<div class="sk-line" style="width:72%;"></div>' +
+    '</div>' +
+    '<div class="blog-card-btn"><div class="sk-line" style="width:150px;height:28px;border-radius:4px;margin-bottom:0;"></div></div>' +
+    '<div class="blog-card-image"><div class="sk-line" style="height:180px;border-radius:4px;margin-bottom:0;"></div></div>' +
+    '</div>';
+}
+
 function renderCards(blogs) {
   var list = document.getElementById('blog-list');
   if (!list) return;
+  list.innerHTML = ''; /* clear skeletons */
   blogs.sort(function (a, b) { return a.order - b.order; });
   blogs.forEach(function (blog) {
     var article = document.createElement('article');
@@ -56,8 +74,26 @@ function renderCards(blogs) {
       '<svg viewBox="0 0 10 9" class="inline-block fill-current size-2.5" preserveAspectRatio="xMidYMid meet" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M5.52614 8.72409L4.75519 7.96238L7.66357 5.05399H0.249512V3.94604H7.66357L4.75519 1.04689L5.52614 0.27594L9.75022 4.50002L5.52614 8.72409Z"></path></svg>' +
       '</a>' +
       '<div class="blog-card-image">' +
-      '<img src="' + blog.imageUrl + '" alt="' + blog.topic + '" loading="lazy" />' +
+      '<img src="' + blog.imageUrl + '" alt="' + blog.topic + '" loading="lazy" decoding="async" />' +
       '</div>';
+
+    /* Blur-up: start blurred, sharpen once decoded */
+    var img = article.querySelector('.blog-card-image img');
+    if (img) {
+      img.style.filter = 'blur(6px)';
+      img.style.transform = 'scale(1.03)';
+      img.style.transition = 'filter 0.45s ease, transform 0.45s ease';
+      var clearBlur = function () {
+        img.style.filter = '';
+        img.style.transform = '';
+      };
+      if (img.complete && img.naturalWidth > 0) {
+        clearBlur();
+      } else {
+        img.addEventListener('load', clearBlur, { once: true });
+      }
+    }
+
     list.appendChild(article);
   });
 }
@@ -102,8 +138,16 @@ export function render(appEl, _params, updateHead) {
 
   updateHead(HEAD_META);
 
-  fetch('./blogs.json')
+  /* Show skeleton cards immediately while fetching */
+  var list = document.getElementById('blog-list');
+  if (list) list.innerHTML = skeletonCard() + skeletonCard();
+
+  fetch('/blogs.json')
     .then(function (r) { return r.json(); })
     .then(renderCards)
-    .catch(function (e) { console.error('Failed to load blogs:', e); });
+    .catch(function (e) {
+      console.error('Failed to load blogs:', e);
+      var l = document.getElementById('blog-list');
+      if (l) l.innerHTML = '<p style="font-size:14px;color:#9a8f82;padding:20px 0;">Could not load articles. Please refresh.</p>';
+    });
 }

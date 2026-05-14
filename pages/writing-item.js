@@ -55,7 +55,7 @@ export function render(appEl, params, updateHead) {
     return;
   }
 
-  fetch('./blogs.json')
+  fetch('/blogs.json')
     .then(function (r) { return r.json(); })
     .then(function (blogs) {
       var blog = null;
@@ -125,7 +125,24 @@ export function render(appEl, params, updateHead) {
       var imageWrap = document.createElement('div');
       imageWrap.className = 'post-image-full';
       imageWrap.style.marginBottom = '0';
-      imageWrap.innerHTML = '<img src="' + blog.imageUrl + '" alt="' + blog.topic + '" />';
+      imageWrap.innerHTML = '<img src="' + blog.imageUrl + '" alt="' + blog.topic + '" decoding="async" />';
+
+      /* Blur-up reveal for post hero image */
+      var postImg = imageWrap.querySelector('img');
+      if (postImg) {
+        postImg.style.filter = 'blur(8px)';
+        postImg.style.transform = 'scale(1.015)';
+        postImg.style.transition = 'filter 0.5s ease, transform 0.5s ease';
+        var clearPostBlur = function () {
+          postImg.style.filter = '';
+          postImg.style.transform = '';
+        };
+        if (postImg.complete && postImg.naturalWidth > 0) {
+          clearPostBlur();
+        } else {
+          postImg.addEventListener('load', clearPostBlur, { once: true });
+        }
+      }
 
       /* 3. Body zone */
       var body = document.createElement('div');
