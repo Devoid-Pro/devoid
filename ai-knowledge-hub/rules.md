@@ -1,6 +1,6 @@
 # Devoid — Critical Rules
 
-Read this before writing any HTML or CSS for this project. These rules have been learned through real mistakes.
+Read this before writing any code for this project. These rules have been learned through real mistakes.
 
 ---
 
@@ -32,9 +32,9 @@ Fill: `fill-current`
 
 ### Known BAD classes (NOT compiled — will silently fail)
 
-- `w-1/5` — gives zero width, borders become invisible ← this burned us once
+- `w-1/5` — gives zero width, borders become invisible ← burned us once
 - `w-3/5`, `w-2/5`, `ml-[20%]`, `mr-[20%]` — likely not compiled
-- `bg-[#F2EEE8]`, `bg-[#FFFEFC17]` — arbitrary bg colours from other sites not in source
+- `bg-[#F2EEE8]`, `bg-[#FFFEFC17]` — arbitrary bg colours not in source
 - `text-c-700` — not confirmed in devoid's styles.css
 
 ### Rule: Use inline styles for anything not in the safe list above
@@ -61,43 +61,52 @@ All interior/content pages use a named 4-border system. Never add random borders
 | --- | --- | --- |
 | a | Outer left edge | `border-l border-c-300` on the page wrapper |
 | b | Outer right edge | `border-r border-c-300` on the page wrapper |
-| c | Left content boundary (20% from left) | `position: absolute; left: 20%; width: 1px; background: #eae5de;` |
-| d | Right content boundary (20% from right = 80% from left) | `position: absolute; right: 20%; width: 1px; background: #eae5de;` |
+| c | Left content boundary (20% from left, or 10% on writings page) | `.post-c-line` / `.blog-c-line` CSS class |
+| d | Right content boundary (20% from right, or 10% on writings page) | `.post-d-line` / `.blog-d-line` CSS class |
 
-**All body content must be between c and d.** Use `margin-left: 20%; margin-right: 20%` on content wrappers (not Tailwind classes — they're not compiled).
-
-**No horizontal lines between cards or sections** unless explicitly added as a deliberate design element (e.g., nav bottom border, footer top border).
+**All body content must be between c and d.** Use `margin-left: 20%; margin-right: 20%` on content wrappers (inline style — Tailwind `ml-[20%]` is not compiled).
 
 ---
 
 ## 3. Logo Treatment Depends on Background
 
-The logo file (`./ass/devoid_pro_logo.jpg`) has a dark background. Rendering it naively on a light page shows a dark rectangle.
+Logo file: `/ass/devoid_pro_logo.png` (PNG, not JPG)
 
-**On dark/hero backgrounds (index.html):**
+The `createNav(isDark)` component handles this automatically. Only set it manually if building something outside of `createNav`.
 
-```html
-style="mix-blend-mode: screen; height: 40px; width: 40px"
-```
-
-Screen blend mode makes the dark JPG background vanish against a dark hero.
-
-**On light/off-white backgrounds (writings.html and all interior pages):**
+**On dark/hero backgrounds:**
 
 ```html
-style="height: 40px; width: 40px; filter: invert(1); mix-blend-mode: multiply;"
+style="mix-blend-mode: screen; height: 36px; width: auto"
 ```
 
-`invert(1)` flips white mark → black, dark bg → white. `multiply` makes the white vanish on the off-white page.
+**On light/off-white backgrounds:**
+
+```html
+style="height: 36px; width: auto; filter: invert(1); mix-blend-mode: multiply;"
+```
 
 ---
 
-## 4. Nav and Footer Are Identical Across All Pages
+## 4. Nav and Footer Are Reusable Components
 
-Copy them exactly. Only change text colour (`text-off-white` on dark, `text-off-black` on light) and logo style (see Rule 3).
+**Do not write nav or footer HTML by hand.** Import and call the component functions:
 
-**Nav wrapper always has `border-b border-c-300`** (the horizontal underline).
-**Footer inner div always has `border-c-300 border-r border-l border-t`** (top + a/b continuation).
+```js
+import { createNav }    from '../components/nav.js';
+import { createFooter } from '../components/footer.js';
+
+// In the template literal:
+${createNav(isDark, activePage)}
+${createFooter()}
+```
+
+- `createNav(true, null)` — dark hero variant (home page)
+- `createNav(false, 'writings')` — light variant, Writings link active
+- `createNav(false, null)` — light variant, no active link (post detail page)
+- `createFooter()` — identical on all pages, no arguments
+
+The mobile menu overlay (`#mobile-menu`) is included in `createNav()`. Its open/close behaviour is wired in `app.js` — do not add separate event listeners for it.
 
 ---
 
@@ -105,98 +114,99 @@ Copy them exactly. Only change text colour (`text-off-white` on dark, `text-off-
 
 When creating a new page:
 
-1. Copy the body wrapper skeleton from `design-system.md`
-2. Copy nav from `writings.html` (change active link)
-3. Copy footer from `writings.html` exactly
-4. Set the correct logo style for the page background (Rule 3)
-5. All body content goes between c and d (Rule 2)
-6. Add the full SEO head block — see `seo-sitemap.md`
-7. Add the new URL to `sitemap.xml` — see `seo-sitemap.md`
+1. Create `pages/your-page.js` with `export function render(appEl, params, updateHead)`.
+2. Set `appEl.innerHTML` with the full page HTML using the skeleton from `design-system.md`.
+3. Use `${createNav(isDark, activePage)}` and `${createFooter()}` inside the template.
+4. Call `updateHead({...})` — see `seo-sitemap.md` for the correct fields.
+5. Add the route to `app.js` routes array and import the render function.
+6. Add the URL to `sitemap.xml`.
+7. All internal links must use `data-link` attribute — `app.js` intercepts them.
+8. All asset paths must be root-relative (`/ass/...`) — see Rule 10.
 
 ---
 
 ## 6. No Build Tool — No npm — No Framework
 
-Do not run `npm install`, `npx tailwind`, or anything that could regenerate `styles.css`. The compiled file is the source of truth. Adding new Tailwind utilities requires inline styles as a workaround.
+Do not run `npm install`, `npx tailwind`, or anything that could regenerate `styles.css`. The compiled file is the source of truth.
 
-For site-wide custom CSS that cannot go in `styles.css`, use `custom.css` at the project root. It is linked from every page immediately after `styles.css`. Add new global rules there — do not edit `styles.css`.
+The site uses native ES Modules (`type="module"`). No bundler is needed — the browser handles imports directly. Do not add `package.json` or any tooling.
+
+For site-wide custom CSS that cannot go in `styles.css`, use `custom.css`. It is loaded from `index.html` after `styles.css`.
 
 ---
 
 ## 7. Blog Data Comes from blogs.json
 
-The writings listing page (`writings.html`) fetches `blogs.json` at runtime via `fetch()`. To add a new post, add an entry to `blogs.json` only — do not modify `writings.html`.
+`pages/writings.js` and `pages/writing-item.js` both fetch `/blogs.json` (absolute path) at runtime. To add a new post, add an entry to `blogs.json` only.
 
-`fetch()` requires an HTTP server — it will not work if `writings.html` is opened as a `file://` URL locally. It works correctly at `devoid.pro`.
+`imageUrl` in `blogs.json` must be a root-relative absolute path: `/ass/blog-bg/blog-N.png`. Do NOT use `./ass/...` — see Rule 10.
+
+`fetch()` requires an HTTP server — does not work as a `file://` URL. Use `npx serve .` for local dev.
 
 ---
 
 ## 8. Footer Must Always Sit at the Bottom of the Viewport
 
-Even when the main content is short (e.g. a blog post with minimal text), the footer must stick to the bottom of the screen — it should never float mid-page.
+Even when the main content is short, the footer must not float mid-page.
 
-### How it works — 3-level flex column
+### 3-level flex column (required on all interior pages)
 
-```text
-outer div   → flex flex-col min-h-screen        (fills the full viewport height)
-  inner div → flex-1 flex flex-col              (grows to fill the outer div)
-    content → flex-1                            (grows to push footer down)
-    footer  →                                  (sits at the bottom)
-```
-
-### Required classes on each level
-
-```html
-<!-- Level 1: outer centering wrapper -->
-<div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
-
-  <!-- Level 2: max-width column — MUST have flex-1 -->
+```js
+// In the page module's template literal:
+`<div class="flex min-h-screen flex-col items-center bg-off-white text-off-black">
   <div class="flex-1 flex w-full max-w-[1204px] 2xl:max-w-[1440px] flex-col">
-
-    <!-- Level 3: bordered content column — MUST have flex-1 -->
     <div class="flex-1 border-l border-r border-c-300">
       <!-- nav + page body -->
     </div>
-
-    <footer>...</footer>
-
+    ${createFooter()}
   </div>
-</div>
+</div>`
 ```
 
-**The critical class is `flex-1` on the Level 2 `max-w-[1204px]` div.** Without it, the inner column collapses to content height and the footer rises up. The Level 3 `flex-1` on the bordered column is also required — it makes that column grow within the Level 2 column so the footer is pushed below.
-
-### Rule
-
-Every content page (any page that is not the full-viewport hero landing page) must have `flex-1` on the `max-w-[1204px]` inner column div.
+The critical class is `flex-1` on the `max-w-[1204px]` div. Without it the footer rises up.
 
 ---
 
 ## 9. No Country or Region Mentions — Anywhere
 
-**Do not name any country, city, or region in any user-facing text, metadata, or structured data.** This includes but is not limited to: Sri Lanka, USA, United States, America, Colombo, Silicon Valley, South Asia, offshore, nearshore, or any geography.
+**Do not name any country, city, or region in any user-facing text, metadata, or structured data.**
 
-Devoid fills engineering skill gaps for companies globally. The positioning is global-to-global, not tied to any origin or destination country.
+This includes: Sri Lanka, USA, Colombo, Silicon Valley, offshore, nearshore, or any geography.
 
-### Applies to
+Devoid is global-to-global. See `rules.md` Rule 9 original for the full approved/banned framing list.
 
-- Page copy (`<p>`, `<h1>`, `<h2>`, body text)
-- Meta titles and descriptions
-- Open Graph and Twitter card tags
-- JSON-LD structured data (including `foundingLocation` — omit this field entirely)
-- Blog/writing post content in `blogs.json`
-- Alt text on images
-- Knowledge hub docs that AI agents read — keep internal docs country-neutral too
+---
 
-### Allowed framing
+## 10. Asset Paths Must Be Root-Relative (Absolute)
 
-```text
-✅ "elite engineers, PMs, QA, DevOps, and UI/UX designers"
-✅ "world-class talent on demand"
-✅ "fill every skill gap without friction"
-✅ "global engineering teams"
-❌ "Sri Lankan engineers"
-❌ "US startups"
-❌ "offshore talent"
-❌ "from Sri Lanka"
+**All asset paths and fetch calls inside JS modules must start with `/`, not `./`.**
+
+```js
+// WRONG — breaks at /writing/1 (resolves to /writing/ass/...)
+fetch('./blogs.json')
+src="./ass/devoid_pro_logo.png"
+
+// CORRECT — always resolves to the site root
+fetch('/blogs.json')
+src="/ass/devoid_pro_logo.png"
 ```
+
+**Why:** At the route `/writing/1`, a relative path `./` resolves relative to `/writing/`, not to `/`. So `./ass/x.png` becomes `/writing/ass/x.png` → 404.
+
+**Exception:** Paths in `index.html` `<head>` static tags (e.g. `./styles.css`, `./ass/devoid_mini_logo.jpg`) are safe because `index.html` always loads from the root document, regardless of which SPA route the user is on.
+
+---
+
+## 11. All Internal Links Must Use data-link
+
+Any `<a>` tag that navigates between SPA routes must have the `data-link` attribute. Without it, the browser does a full page reload instead of a client-side navigation.
+
+```html
+<!-- WRONG — full page reload -->
+<a href="/writings">Writings</a>
+
+<!-- CORRECT — intercepted by app.js event delegation -->
+<a href="/writings" data-link>Writings</a>
+```
+
+External links (`target="_blank"`) do not need `data-link`.

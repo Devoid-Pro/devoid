@@ -1,63 +1,67 @@
-# Page: index.html (Landing Page)
+# Page: Home (Landing Page)
 
-URL: `https://devoid.pro/`  
-File: `devoid/index.html`
+URL: `https://devoid.pro/`
+File: `pages/home.js`
 
 ---
 
 ## Purpose
 
-The main landing page. Hero section with background image, nav, email capture form, and footer. Dark background throughout — logo and text use light colours.
+The main landing page. Full-viewport hero with background image, dark nav, email capture form, and footer. The entire hero section has a dark/image background — all text and logo use light colours.
 
 ---
 
 ## Page Structure
 
-```
-<body>
-  <div> (centering wrapper, bg-off-white)
-    <main> (hero section, full viewport height, max-w-[1204px])
-      <div> (background image + gradient overlay)
-      <div> (hero content: nav + heading + form)
-        <div> (nav wrapper)
-          <header> (logo + Blogs link + hamburger)
-        <div> (hero text + form)
+```text
+render(appEl) sets appEl.innerHTML:
+
+<div> (centering wrapper, flex-col, bg-off-white)
+  <div> (max-w-[1204px] column — wraps BOTH hero and footer)
+
+    <div> (hero — relative, min-h-screen, box-border)
+      <div> (background: image or gradient depending on connection speed)
+        <img id="hero-bg-img" ...>   ← skipped on slow connections
+        <div> (gradient overlay: top third, black/30 → transparent)
+      <div> (hero content — relative, flex-col, overflow-hidden)
+        ${createNav(true, null)}     ← dark variant, no border-b
+        <div> (hero text + form area)
+          <div> (From Earth badge)
           <h1> Scale Teams Without Friction.
-          <p> subheading
-          <div> (email form)
-    <footer> (identical to all pages — see design-system.md)
+          <p>  subheading
+          <div> (email capture form)
+
+    ${createFooter()}
 ```
 
-**Note:** The landing page does NOT use the a/b/c/d border system. The border system is for interior/content pages only. The footer still has `border-l border-r border-c-300` on its inner div (continuing the a/b visual from the footer upward).
+**Note:** The home page does NOT use the a/b/c/d border system. The footer still has `border-l border-r border-c-300` on its inner div (from `createFooter()`).
 
 ---
 
-## Hero Section
+## Navigation (home page variant)
 
-- Full viewport height: `min-h-screen`
-- Max width: `max-w-[1204px] 2xl:max-w-[1440px]`
-- Background image: `./ass/devoid_hero_bg.jpg`
-  - `fetchpriority="high"` (LCP image — do not remove)
-  - `width="1204" height="881"` (explicit dimensions — do not remove)
-- Gradient overlay: `bg-gradient-to-b from-black/30 via-75% to-transparent` on top third
+```js
+${createNav(true, null)}
+```
+
+`isDark=true` produces:
+
+- `text-off-white` on header and hamburger button
+- Logo: `mix-blend-mode: screen` (dark JPG background vanishes against dark hero)
+- No `border-b border-c-300` on nav wrapper (hero image is behind it)
 
 ---
 
-## Navigation (landing page variant)
+## Hero Background — Network-Aware
 
-Same HTML structure as all pages but with these differences:
+`pages/home.js` checks `window.__devoidSlowConn` (set by `app.js` at startup):
 
-- Text colour: `text-off-white` (not `text-off-black`)
-- Logo style: `mix-blend-mode: screen` (not `filter: invert(1); mix-blend-mode: multiply`)
-- Hamburger button class ends with `text-off-white` (not `text-off-black`)
-- No `border-b border-c-300` on the nav wrapper (no underline — the hero image is behind it)
-- Nav is inside the hero `<main>` tag, not a standalone `<header>` outside it
+| Connection | Behaviour |
+| --- | --- |
+| Fast (default) | `<img id="hero-bg-img" src="/ass/devoid_hero_bg.jpg" fetchpriority="high" decoding="async">` renders with `opacity:0`, fades to `opacity:1` via JS once `load` fires |
+| Slow (`slow-2g`, `2g`, `saveData`) | Image skipped entirely — replaced with `linear-gradient(150deg, #1a100a → #3d2a18)` CSS gradient |
 
-```html
-<!-- Logo on dark bg -->
-<img src="./ass/devoid_pro_logo.jpg" alt="Devoid" class="inline-block rounded-sm"
-  style="mix-blend-mode: screen; height: 40px; width: 40px" />
-```
+The hero image is `1204×881`, `/ass/devoid_hero_bg.jpg`. `fetchpriority="high"` must stay on the `<img>` — it is the LCP element.
 
 ---
 
@@ -71,7 +75,8 @@ Same HTML structure as all pages but with these differences:
 
 - Font: Martina Plantijn serif, light weight
 - Colour: `text-c-50` (near white)
-- Tracking: `-3.5px`
+- Tracking: `-3.5px` (inline style not needed — compiled into the class)
+- One `<span>` per word to preserve the wrapping gap layout
 
 ---
 
@@ -87,13 +92,11 @@ Same HTML structure as all pages but with these differences:
 </form>
 ```
 
-The form currently has no submission handler (no `action`, no JS). Placeholder only.
+The form currently has no submission handler. Add a `submit` event listener after `appEl.innerHTML` is set.
 
 ---
 
 ## "From Earth" Badge
-
-Small announcement pill at the top of hero content:
 
 ```html
 <a class="inline-flex items-center gap-1 rounded-[9px] bg-[#FFFEFC17] px-3 py-px font-450 text-xs transition-all duration-300 ease-in-out hover:backdrop-blur-sm border border-[#F7F4F04D] text-white" href="">
@@ -102,32 +105,45 @@ Small announcement pill at the top of hero content:
 </a>
 ```
 
-`href=""` — no destination yet. Update when there's a link target.
+`href=""` — no destination yet. Update when there is a link target.
+
+---
+
+## HEAD_META
+
+```js
+{
+  title:       'Devoid — Scale Engineering Teams Without Friction',
+  description: 'Devoid connects companies with elite engineers, PMs, QA, DevOps, and UI/UX designers on demand. Fill every skill gap and scale your team without friction.',
+  canonical:   'https://devoid.pro/',
+  ogType:      'website',
+  ogUrl:       'https://devoid.pro/',
+  ogTitle:     'Devoid — Scale Engineering Teams Without Friction',
+  ogImage:     'https://devoid.pro/ass/devoid_pro_logo.png',
+  jsonLd: [Organization, WebSite nodes]  // see seo-sitemap.md
+}
+```
 
 ---
 
 ## What to Change and How
 
 ### Change the hero headline
-Edit the `<span>` words inside the `<h1>`. Keep one `<span>` per word to preserve the wrapping gap layout.
+
+Edit the `<span>` words inside the `<h1>`. Keep one `<span>` per word.
 
 ### Change the subheading
-Edit the `<p>` tag after the `<h1>`. Keep under ~12 words.
 
-### Update the CTA button text
-Edit the `<button>` inside the form — currently "Contact Us".
+Edit the `<p>` after the `<h1>`. Keep under ~12 words.
 
 ### Add form submission
-Add `action="..."` to the `<form>` or add a JS `submit` event listener. Do not break the existing classes.
+
+After `appEl.innerHTML = ...`, query the form and add a `submit` listener. Do not break the existing classes.
 
 ### Change the hero background image
-Replace `./ass/devoid_hero_bg.jpg`. Keep the same `width` and `height` attributes if the new image is the same dimensions, otherwise update them.
 
-### Add a new nav link
-Add another `<a>` after the Blogs link, same class pattern. Update `blog.html` nav to match.
+Replace `/ass/devoid_hero_bg.jpg`. Update `width` and `height` attributes if dimensions differ.
 
----
+### Change the slow-connection gradient
 
-## SEO
-
-See `seo-sitemap.md` for the full head block. The `<title>` is just `Devoid` (no tagline — intentional for the homepage).
+Edit the `linear-gradient(...)` value in the `heroBgHtml` variable inside `render()`.
